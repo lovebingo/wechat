@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\MiniProgram\Store;
+namespace EasyWeChat\Tests\OfficialAccount\Store;
 
-use EasyWeChat\MiniProgram\Store\Client;
+use EasyWeChat\OfficialAccount\Store\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
@@ -41,6 +41,15 @@ class ClientTest extends TestCase
             'keyword' => '北京',
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->searchFromMap(2, '北京'));
+    }
+
+    public function testGetStatus()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('wxa/get_merchant_audit_info')->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->getStatus());
     }
 
     public function testCreateMerchant()

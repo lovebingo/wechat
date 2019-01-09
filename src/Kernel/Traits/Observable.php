@@ -42,6 +42,7 @@ trait Observable
      * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function push($handler, $condition = '*')
     {
@@ -63,6 +64,7 @@ trait Observable
      * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function unshift($handler, $condition = '*')
     {
@@ -129,7 +131,7 @@ trait Observable
                 foreach ($handlers as $handler) {
                     if ($clause = $this->clauses[spl_object_hash((object) $handler)] ?? null) {
                         if ($clause->intercepted($payload)) {
-                            continue 2;
+                            continue;
                         }
                     }
                     $response = $this->callHandler($handler, $payload);

@@ -27,6 +27,7 @@ use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
  * @property \EasyWeChat\OpenPlatform\Server\Guard        $server
  * @property \EasyWeChat\OpenPlatform\Auth\AccessToken    $access_token
  * @property \EasyWeChat\OpenPlatform\CodeTemplate\Client $code_template
+ * @property \EasyWeChat\OpenPlatform\Component\Client    $component
  *
  * @method mixed handleAuthorize(string $authCode = null)
  * @method mixed getAuthorizer(string $appId)
@@ -45,6 +46,7 @@ class Application extends ServiceContainer
         Base\ServiceProvider::class,
         Server\ServiceProvider::class,
         CodeTemplate\ServiceProvider::class,
+        Component\ServiceProvider::class,
     ];
 
     /**
@@ -171,6 +173,7 @@ class Application extends ServiceContainer
     protected function getAuthorizerConfig(string $appId, string $refreshToken = null): array
     {
         return $this['config']->merge([
+            'component_app_id' => $this['config']['app_id'],
             'app_id' => $appId,
             'refresh_token' => $refreshToken,
         ])->toArray();
@@ -212,6 +215,6 @@ class Application extends ServiceContainer
      */
     public function __call($method, $args)
     {
-        return call_user_func_array([$this['base'], $method], $args);
+        return $this->base->$method(...$args);
     }
 }

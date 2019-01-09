@@ -9,16 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\MiniProgram\Store;
+namespace EasyWeChat\MiniProgram\UniformMessage;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-/**
- * Class ServiceProvider.
- *
- * @author bigface <saybye720@gmail.com>
- */
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -26,7 +21,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['store'] = function ($app) {
+        $app['uniform_message'] = function ($app) {
             return new Client($app);
         };
     }
